@@ -15,6 +15,28 @@ class DirectorsController < ApplicationController
     render({ :template => "director_templates/show" })
   end
 
+  def insert
+    i = Director.new
+    i.name = params.fetch("query_name")
+    i.dob = params.fetch("query_dob")
+    i.bio = params.fetch("query_bio")
+    i.image = params.fetch("query_image")
+    i.save
+
+    redirect_to("/directors")
+
+  end
+
+  def delete
+    the_id = params.fetch("path_id")
+    matching_rows = Director.where({ :id => the_id })
+    director = matching_rows.at(0)
+
+    director.destroy
+
+    redirect_to("/directors")
+  end
+
   def max_dob
     directors_by_dob_desc = Director.
       all.
