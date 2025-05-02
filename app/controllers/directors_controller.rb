@@ -44,6 +44,9 @@ class DirectorsController < ApplicationController
 
     # pull the new name out of the params
     director.name = params.fetch("query_name")
+    director.dob = params.fetch("query_dob")
+    director.bio = params.fetch("query_bio")
+    director.image = params.fetch("query_image")
 
     # persist the change
     director.save

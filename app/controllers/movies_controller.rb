@@ -13,7 +13,6 @@ class MoviesController < ApplicationController
     i.duration = params.fetch("query_duration")
     i.description = params.fetch("query_description")
     i.image = params.fetch("query_image")
-    i.director_id = params.fetch("query_director_id")
     i.save
 
     redirect_to("/movies")
@@ -28,6 +27,26 @@ class MoviesController < ApplicationController
     movie.destroy
 
     redirect_to("/movies")
+  end
+
+  def update
+    the_id = params.fetch("path_id")
+    matching_rows = Movie.where({ :id => the_id })
+    movie = matching_rows.at(0)
+
+    # pull the new name out of the params
+    movie.title = params.fetch("query_title")
+    movie.year = params.fetch("query_year")
+    movie.duration = params.fetch("query_duration")
+    movie.description = params.fetch("query_description")
+    movie.image = params.fetch("query_image")
+    movie.director_id = params.fetch("query_director_id")
+
+    # persist the change
+    movie.save
+
+    # send the user back to the contact’s show page
+    redirect_to("/movies/#{movie.id}")
   end
 
   def show
