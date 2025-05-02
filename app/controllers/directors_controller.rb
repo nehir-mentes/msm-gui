@@ -37,6 +37,21 @@ class DirectorsController < ApplicationController
     redirect_to("/directors")
   end
 
+  def update
+    the_id = params.fetch("path_id")
+    matching_rows = Director.where({ :id => the_id })
+    director = matching_rows.at(0)
+
+    # pull the new name out of the params
+    director.name = params.fetch("query_name")
+
+    # persist the change
+    director.save
+
+    # send the user back to the contact’s show page
+    redirect_to("/directors/#{director.id}")
+  end
+
   def max_dob
     directors_by_dob_desc = Director.
       all.
